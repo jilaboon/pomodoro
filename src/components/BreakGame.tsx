@@ -8,6 +8,7 @@ interface BreakGameProps {
 interface Bubble {
   id: number;
   size: number;
+  hitSize: number;
   x: number;
   y: number;
   vx: number;
@@ -17,20 +18,23 @@ interface Bubble {
 const MAX_BUBBLES = 15;
 const MIN_SPEED = 160;
 const MAX_SPEED = 280;
+const HIT_PADDING = 16;
 
 const randomBetween = (min: number, max: number) =>
   Math.random() * (max - min) + min;
 
 const createBubble = (id: number, width: number, height: number): Bubble => {
   const size = Math.round(randomBetween(28, 70));
-  const safeWidth = Math.max(width - size, 0);
-  const safeHeight = Math.max(height - size, 0);
+  const hitSize = size + HIT_PADDING * 2;
+  const safeWidth = Math.max(width - hitSize, 0);
+  const safeHeight = Math.max(height - hitSize, 0);
   const angle = randomBetween(0, Math.PI * 2);
   const speed = randomBetween(MIN_SPEED, MAX_SPEED);
 
   return {
     id,
     size,
+    hitSize,
     x: Math.round(randomBetween(0, safeWidth)),
     y: Math.round(randomBetween(0, safeHeight)),
     vx: Math.cos(angle) * speed,
@@ -53,8 +57,8 @@ export const BreakGame = ({ onExit }: BreakGameProps) => {
       boundsRef.current = { width: rect.width, height: rect.height };
       if (rect.width && rect.height) {
         const clamped = bubblesRef.current.map((bubble) => {
-          const maxX = Math.max(rect.width - bubble.size, 0);
-          const maxY = Math.max(rect.height - bubble.size, 0);
+          const maxX = Math.max(rect.width - bubble.hitSize, 0);
+          const maxY = Math.max(rect.height - bubble.hitSize, 0);
           return {
             ...bubble,
             x: Math.min(Math.max(bubble.x, 0), maxX),
@@ -113,16 +117,16 @@ export const BreakGame = ({ onExit }: BreakGameProps) => {
           if (nextX <= 0) {
             nextX = 0;
             nextVx = Math.abs(nextVx);
-          } else if (nextX + bubble.size >= width) {
-            nextX = Math.max(width - bubble.size, 0);
+          } else if (nextX + bubble.hitSize >= width) {
+            nextX = Math.max(width - bubble.hitSize, 0);
             nextVx = -Math.abs(nextVx);
           }
 
           if (nextY <= 0) {
             nextY = 0;
             nextVy = Math.abs(nextVy);
-          } else if (nextY + bubble.size >= height) {
-            nextY = Math.max(height - bubble.size, 0);
+          } else if (nextY + bubble.hitSize >= height) {
+            nextY = Math.max(height - bubble.hitSize, 0);
             nextVy = -Math.abs(nextVy);
           }
 
@@ -167,10 +171,11 @@ export const BreakGame = ({ onExit }: BreakGameProps) => {
       <div className="game-playfield" ref={containerRef}>
         {bubbles.map((bubble) => {
           const style = {
-            width: `${bubble.size}px`,
-            height: `${bubble.size}px`,
+            width: `${bubble.hitSize}px`,
+            height: `${bubble.hitSize}px`,
             left: `${bubble.x}px`,
             top: `${bubble.y}px`,
+            '--bubble-size': `${bubble.size}px`,
           } as CSSProperties;
 
           return (
@@ -180,6 +185,7 @@ export const BreakGame = ({ onExit }: BreakGameProps) => {
               className="game-bubble"
               style={style}
               aria-label="Pop bubble"
+              onPointerDown={() => popBubble(bubble.id)}
               onClick={() => popBubble(bubble.id)}
             />
           );
