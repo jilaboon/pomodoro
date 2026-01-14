@@ -5,6 +5,7 @@ import { Settings } from './components/Settings';
 import { Stats } from './components/Stats';
 import { BadgeNotification } from './components/BadgeNotification';
 import { NamePrompt } from './components/NamePrompt';
+import { BreakGame } from './components/BreakGame';
 import { celebrateCompletion, celebrateBadge } from './utils/confetti';
 import { loadVoiceSettings, saveVoiceSettings, getAvailableVoices } from './utils/voice';
 import { useEffect, useState } from 'react';
@@ -21,6 +22,7 @@ const DEPLOYMENT_TIME = new Date('2026-01-14T09:55:00').toLocaleString('en-US', 
 
 function App() {
   const [showNamePrompt, setShowNamePrompt] = useState(false);
+  const [isGameMode, setIsGameMode] = useState(false);
 
   const {
     gameState,
@@ -54,6 +56,12 @@ function App() {
     }
   }, [newBadges]);
 
+  useEffect(() => {
+    if (state.mode !== 'break' && isGameMode) {
+      setIsGameMode(false);
+    }
+  }, [state.mode, isGameMode]);
+
   const handleNameSubmit = (name: string) => {
     // Get available voices and use the first one as default
     const voices = getAvailableVoices();
@@ -83,6 +91,8 @@ function App() {
           onStart={start}
           onPause={pause}
           onReset={reset}
+          onEnterGameMode={() => setIsGameMode(true)}
+          showGameModeButton={state.mode === 'break' && !isGameMode}
         />
 
         <Settings
@@ -95,6 +105,8 @@ function App() {
       </main>
 
       <BadgeNotification badgeIds={newBadges} />
+
+      {isGameMode && <BreakGame onExit={() => setIsGameMode(false)} />}
     </div>
   );
 }

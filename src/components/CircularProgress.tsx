@@ -16,7 +16,13 @@ export const CircularProgress = ({
   const offset = circumference - (percentage / 100) * circumference;
 
   return (
-    <svg width={size} height={size} className="circular-progress">
+    <svg
+      width="100%"
+      height="100%"
+      viewBox={`0 0 ${size} ${size}`}
+      preserveAspectRatio="xMidYMid meet"
+      className="circular-progress"
+    >
       <circle
         className="circular-progress-bg"
         stroke="rgba(255, 255, 255, 0.1)"

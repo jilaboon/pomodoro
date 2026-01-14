@@ -6,9 +6,18 @@ interface TimerProps {
   onStart: () => void;
   onPause: () => void;
   onReset: () => void;
+  onEnterGameMode: () => void;
+  showGameModeButton: boolean;
 }
 
-export const Timer = ({ state, onStart, onPause, onReset }: TimerProps) => {
+export const Timer = ({
+  state,
+  onStart,
+  onPause,
+  onReset,
+  onEnterGameMode,
+  showGameModeButton,
+}: TimerProps) => {
   const { mode, status, timeLeft, currentCycle, settings } = state;
 
   const formatTime = (seconds: number): string => {
@@ -60,6 +69,11 @@ export const Timer = ({ state, onStart, onPause, onReset }: TimerProps) => {
         <button onClick={onReset} className="btn btn-reset">
           Reset
         </button>
+        {showGameModeButton && (
+          <button onClick={onEnterGameMode} className="btn btn-game">
+            Game Mode
+          </button>
+        )}
       </div>
     </div>
   );
