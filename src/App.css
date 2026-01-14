@@ -9,20 +9,39 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #0a0a0a 0%, #1a0a2e 50%, #0a0a0a 100%);
   color: white;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   transition: background 1s ease;
+  position: relative;
 }
 
 .app.work-mode {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #0a0a0a 0%, #2e0a1a 50%, #0a0a0a 100%);
 }
 
 .app.break-mode {
-  background: linear-gradient(135deg, #38ef7d 0%, #11998e 100%);
+  background: linear-gradient(135deg, #0a0a0a 0%, #0a2e1a 50%, #0a0a0a 100%);
+}
+
+/* Deployment Timestamp */
+.deployment-timestamp {
+  position: fixed;
+  top: 0.75rem;
+  left: 0.75rem;
+  font-size: 0.7rem;
+  opacity: 0.5;
+  font-family: 'Courier New', monospace;
+  color: #00ffff;
+  text-shadow: 0 0 5px #00ffff;
+  z-index: 100;
+  transition: opacity 0.3s ease;
+}
+
+.deployment-timestamp:hover {
+  opacity: 0.8;
 }
 
 .app-header {
@@ -33,7 +52,30 @@
 .app-header h1 {
   font-size: 2.5rem;
   font-weight: 700;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+  color: #ff00ff;
+  text-shadow:
+    0 0 10px #ff00ff,
+    0 0 20px #ff00ff,
+    0 0 30px #ff00ff,
+    0 0 40px #ff00ff;
+  animation: neonPulse 2s ease-in-out infinite;
+}
+
+@keyframes neonPulse {
+  0%, 100% {
+    text-shadow:
+      0 0 10px #ff00ff,
+      0 0 20px #ff00ff,
+      0 0 30px #ff00ff,
+      0 0 40px #ff00ff;
+  }
+  50% {
+    text-shadow:
+      0 0 5px #ff00ff,
+      0 0 10px #ff00ff,
+      0 0 15px #ff00ff,
+      0 0 20px #ff00ff;
+  }
 }
 
 .app-main {
@@ -49,14 +91,34 @@
 
 /* Timer Container */
 .timer-container {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(10, 10, 10, 0.8);
   backdrop-filter: blur(10px);
   border-radius: 20px;
   padding: 3rem 2rem;
   width: 100%;
-  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  animation: fadeInUp 0.6s ease;
+  box-shadow:
+    0 0 20px rgba(255, 0, 255, 0.3),
+    0 0 40px rgba(0, 255, 255, 0.2),
+    inset 0 0 20px rgba(255, 0, 255, 0.1);
+  border: 2px solid rgba(255, 0, 255, 0.5);
+  animation: fadeInUp 0.6s ease, containerGlow 3s ease-in-out infinite;
+}
+
+@keyframes containerGlow {
+  0%, 100% {
+    border-color: rgba(255, 0, 255, 0.5);
+    box-shadow:
+      0 0 20px rgba(255, 0, 255, 0.3),
+      0 0 40px rgba(0, 255, 255, 0.2),
+      inset 0 0 20px rgba(255, 0, 255, 0.1);
+  }
+  50% {
+    border-color: rgba(0, 255, 255, 0.5);
+    box-shadow:
+      0 0 20px rgba(0, 255, 255, 0.3),
+      0 0 40px rgba(255, 0, 255, 0.2),
+      inset 0 0 20px rgba(0, 255, 255, 0.1);
+  }
 }
 
 @keyframes fadeInUp {
@@ -92,11 +154,19 @@
 }
 
 .mode-title.work {
-  color: #ffd700;
+  color: #ff00ff;
+  text-shadow:
+    0 0 10px #ff00ff,
+    0 0 20px #ff00ff,
+    0 0 30px #ff00ff;
 }
 
 .mode-title.break {
-  color: #90ee90;
+  color: #00ff00;
+  text-shadow:
+    0 0 10px #00ff00,
+    0 0 20px #00ff00,
+    0 0 30px #00ff00;
 }
 
 .cycle-counter {
@@ -141,7 +211,13 @@
   font-weight: 700;
   font-variant-numeric: tabular-nums;
   letter-spacing: 0.05em;
-  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+  color: #00ffff;
+  text-shadow:
+    0 0 10px #00ffff,
+    0 0 20px #00ffff,
+    0 0 30px #00ffff,
+    0 0 40px #00ffff,
+    0 0 50px #00ffff;
 }
 
 .timer-controls {
@@ -202,36 +278,108 @@
 }
 
 .btn-start {
-  background: #4ade80;
-  color: #1e293b;
+  background: rgba(0, 255, 0, 0.2);
+  color: #00ff00;
+  border: 2px solid #00ff00;
+  box-shadow:
+    0 0 10px #00ff00,
+    0 0 20px #00ff00,
+    inset 0 0 10px rgba(0, 255, 0, 0.2);
+}
+
+.btn-start:hover:not(:disabled) {
+  background: rgba(0, 255, 0, 0.3);
+  box-shadow:
+    0 0 20px #00ff00,
+    0 0 30px #00ff00,
+    inset 0 0 15px rgba(0, 255, 0, 0.3);
 }
 
 .btn-pause {
-  background: #fb923c;
-  color: #1e293b;
+  background: rgba(255, 165, 0, 0.2);
+  color: #ffaa00;
+  border: 2px solid #ffaa00;
+  box-shadow:
+    0 0 10px #ffaa00,
+    0 0 20px #ffaa00,
+    inset 0 0 10px rgba(255, 165, 0, 0.2);
+}
+
+.btn-pause:hover:not(:disabled) {
+  background: rgba(255, 165, 0, 0.3);
+  box-shadow:
+    0 0 20px #ffaa00,
+    0 0 30px #ffaa00,
+    inset 0 0 15px rgba(255, 165, 0, 0.3);
 }
 
 .btn-reset {
-  background: #ef4444;
-  color: white;
+  background: rgba(255, 0, 255, 0.2);
+  color: #ff00ff;
+  border: 2px solid #ff00ff;
+  box-shadow:
+    0 0 10px #ff00ff,
+    0 0 20px #ff00ff,
+    inset 0 0 10px rgba(255, 0, 255, 0.2);
+}
+
+.btn-reset:hover:not(:disabled) {
+  background: rgba(255, 0, 255, 0.3);
+  box-shadow:
+    0 0 20px #ff00ff,
+    0 0 30px #ff00ff,
+    inset 0 0 15px rgba(255, 0, 255, 0.3);
 }
 
 .btn-settings {
-  background: rgba(255, 255, 255, 0.2);
-  color: white;
+  background: rgba(0, 255, 255, 0.2);
+  color: #00ffff;
+  border: 2px solid #00ffff;
   padding: 0.75rem 1.5rem;
+  box-shadow:
+    0 0 10px rgba(0, 255, 255, 0.3),
+    inset 0 0 10px rgba(0, 255, 255, 0.1);
+}
+
+.btn-settings:hover:not(:disabled) {
+  background: rgba(0, 255, 255, 0.3);
+  box-shadow:
+    0 0 20px rgba(0, 255, 255, 0.5),
+    inset 0 0 15px rgba(0, 255, 255, 0.2);
 }
 
 .btn-save {
-  background: #4ade80;
-  color: #1e293b;
+  background: rgba(0, 255, 0, 0.2);
+  color: #00ff00;
+  border: 2px solid #00ff00;
   padding: 0.75rem 1.5rem;
+  box-shadow:
+    0 0 10px rgba(0, 255, 0, 0.3),
+    inset 0 0 10px rgba(0, 255, 0, 0.1);
+}
+
+.btn-save:hover:not(:disabled) {
+  background: rgba(0, 255, 0, 0.3);
+  box-shadow:
+    0 0 20px rgba(0, 255, 0, 0.5),
+    inset 0 0 15px rgba(0, 255, 0, 0.2);
 }
 
 .btn-cancel {
-  background: #94a3b8;
-  color: white;
+  background: rgba(128, 128, 128, 0.2);
+  color: #cccccc;
+  border: 2px solid #888888;
   padding: 0.75rem 1.5rem;
+  box-shadow:
+    0 0 10px rgba(128, 128, 128, 0.3),
+    inset 0 0 10px rgba(128, 128, 128, 0.1);
+}
+
+.btn-cancel:hover:not(:disabled) {
+  background: rgba(128, 128, 128, 0.3);
+  box-shadow:
+    0 0 20px rgba(128, 128, 128, 0.5),
+    inset 0 0 15px rgba(128, 128, 128, 0.2);
 }
 
 /* Settings */
@@ -241,13 +389,15 @@
 }
 
 .settings-panel {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(10, 10, 10, 0.8);
   backdrop-filter: blur(10px);
   border-radius: 20px;
   padding: 2rem;
   margin-top: 1rem;
-  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow:
+    0 0 20px rgba(0, 255, 255, 0.3),
+    inset 0 0 20px rgba(0, 255, 255, 0.1);
+  border: 2px solid rgba(0, 255, 255, 0.5);
   animation: slideDown 0.3s ease;
 }
 
@@ -281,20 +431,83 @@
 .setting-group input {
   padding: 0.5rem;
   font-size: 1rem;
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  border: 2px solid rgba(0, 255, 255, 0.5);
   border-radius: 8px;
-  background: rgba(255, 255, 255, 0.1);
-  color: white;
+  background: rgba(10, 10, 10, 0.6);
+  color: #00ffff;
   width: 80px;
   text-align: center;
   transition: all 0.3s ease;
+  box-shadow:
+    0 0 10px rgba(0, 255, 255, 0.2),
+    inset 0 0 10px rgba(0, 255, 255, 0.1);
 }
 
 .setting-group input:focus {
   outline: none;
-  border-color: white;
-  background: rgba(255, 255, 255, 0.2);
+  border-color: #00ffff;
+  background: rgba(10, 10, 10, 0.8);
   transform: scale(1.05);
+  box-shadow:
+    0 0 20px rgba(0, 255, 255, 0.5),
+    inset 0 0 15px rgba(0, 255, 255, 0.2);
+}
+
+.settings-section-title {
+  font-size: 1.2rem;
+  margin: 2rem 0 1rem 0;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid rgba(0, 255, 255, 0.3);
+  color: #00ffff;
+  text-shadow: 0 0 10px #00ffff;
+}
+
+.settings-section-title:first-child {
+  margin-top: 0;
+}
+
+.voice-select {
+  padding: 0.5rem;
+  font-size: 1rem;
+  border: 2px solid rgba(0, 255, 255, 0.5);
+  border-radius: 8px;
+  background: rgba(10, 10, 10, 0.6);
+  color: #00ffff;
+  width: 200px;
+  transition: all 0.3s ease;
+  box-shadow:
+    0 0 10px rgba(0, 255, 255, 0.2),
+    inset 0 0 10px rgba(0, 255, 255, 0.1);
+}
+
+.voice-select:focus {
+  outline: none;
+  border-color: #00ffff;
+  box-shadow:
+    0 0 20px rgba(0, 255, 255, 0.5),
+    inset 0 0 15px rgba(0, 255, 255, 0.2);
+}
+
+.voice-select option {
+  background: #1a1a1a;
+  color: #00ffff;
+}
+
+.btn-preview {
+  background: rgba(255, 0, 255, 0.2);
+  color: #ff00ff;
+  border: 2px solid #ff00ff;
+  padding: 0.75rem 1.5rem;
+  box-shadow:
+    0 0 10px rgba(255, 0, 255, 0.3),
+    inset 0 0 10px rgba(255, 0, 255, 0.1);
+}
+
+.btn-preview:hover:not(:disabled) {
+  background: rgba(255, 0, 255, 0.3);
+  box-shadow:
+    0 0 20px rgba(255, 0, 255, 0.5),
+    inset 0 0 15px rgba(255, 0, 255, 0.2);
 }
 
 .settings-actions {
@@ -307,12 +520,14 @@
 /* Stats Container */
 .stats-container {
   width: 100%;
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(10, 10, 10, 0.8);
   backdrop-filter: blur(10px);
   border-radius: 20px;
   padding: 2rem;
-  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow:
+    0 0 20px rgba(255, 255, 0, 0.3),
+    inset 0 0 20px rgba(255, 255, 0, 0.1);
+  border: 2px solid rgba(255, 255, 0, 0.5);
   animation: fadeInUp 0.6s ease 0.4s both;
 }
 
@@ -330,20 +545,27 @@
 }
 
 .stat-card {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(10, 10, 10, 0.6);
   padding: 1.5rem;
   border-radius: 15px;
   display: flex;
   align-items: center;
   gap: 1rem;
   transition: all 0.3s ease;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(255, 0, 255, 0.3);
+  box-shadow:
+    0 0 10px rgba(255, 0, 255, 0.2),
+    inset 0 0 10px rgba(255, 0, 255, 0.1);
 }
 
 .stat-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-  background: rgba(255, 255, 255, 0.15);
+  box-shadow:
+    0 0 20px rgba(255, 0, 255, 0.5),
+    0 10px 25px rgba(255, 0, 255, 0.3),
+    inset 0 0 15px rgba(255, 0, 255, 0.2);
+  background: rgba(20, 10, 20, 0.8);
+  border-color: rgba(255, 0, 255, 0.6);
 }
 
 .stat-icon {
@@ -407,37 +629,47 @@
 }
 
 .badge {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(10, 10, 10, 0.6);
   padding: 1rem;
   border-radius: 12px;
   text-align: center;
   transition: all 0.3s ease;
-  border: 2px solid transparent;
+  border: 2px solid rgba(100, 100, 100, 0.3);
 }
 
 .badge.earned {
-  border-color: #ffd700;
-  background: rgba(255, 215, 0, 0.2);
+  border-color: #ffff00;
+  background: rgba(255, 255, 0, 0.2);
+  box-shadow:
+    0 0 15px rgba(255, 255, 0, 0.5),
+    inset 0 0 10px rgba(255, 255, 0, 0.2);
   animation: badgeGlow 2s ease-in-out infinite;
 }
 
 @keyframes badgeGlow {
   0%, 100% {
-    box-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+    box-shadow:
+      0 0 15px rgba(255, 255, 0, 0.5),
+      inset 0 0 10px rgba(255, 255, 0, 0.2);
   }
   50% {
-    box-shadow: 0 0 20px rgba(255, 215, 0, 0.6);
+    box-shadow:
+      0 0 25px rgba(255, 255, 0, 0.8),
+      inset 0 0 15px rgba(255, 255, 0, 0.3);
   }
 }
 
 .badge.locked {
-  opacity: 0.4;
+  opacity: 0.3;
   filter: grayscale(100%);
 }
 
 .badge.earned:hover {
   transform: scale(1.1);
-  box-shadow: 0 8px 20px rgba(255, 215, 0, 0.4);
+  box-shadow:
+    0 0 30px rgba(255, 255, 0, 0.8),
+    0 8px 20px rgba(255, 255, 0, 0.4),
+    inset 0 0 20px rgba(255, 255, 0, 0.3);
 }
 
 .badge-icon {
@@ -455,11 +687,15 @@
   position: fixed;
   top: 2rem;
   right: 2rem;
-  background: rgba(255, 255, 255, 0.95);
-  color: #1e293b;
+  background: rgba(10, 10, 10, 0.95);
+  color: #ffff00;
   padding: 1.5rem;
   border-radius: 15px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  border: 2px solid #ffff00;
+  box-shadow:
+    0 0 30px rgba(255, 255, 0, 0.6),
+    0 10px 30px rgba(0, 0, 0, 0.5),
+    inset 0 0 20px rgba(255, 255, 0, 0.2);
   animation: slideInRight 0.5s ease, slideOutRight 0.5s ease 4.5s forwards;
   z-index: 1000;
   max-width: 300px;
@@ -490,7 +726,10 @@
 .badge-notification h3 {
   font-size: 1.2rem;
   margin-bottom: 1rem;
-  color: #1e293b;
+  color: #ffff00;
+  text-shadow:
+    0 0 10px #ffff00,
+    0 0 20px #ffff00;
 }
 
 .earned-badge {
@@ -506,12 +745,13 @@
 
 .earned-badge-name {
   font-weight: 600;
-  color: #1e293b;
+  color: #ffff00;
+  text-shadow: 0 0 10px #ffff00;
 }
 
 .earned-badge-desc {
   font-size: 0.85rem;
-  color: #64748b;
+  color: #cccccc;
 }
 
 /* Responsive */

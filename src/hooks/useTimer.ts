@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import type { TimerMode, TimerStatus, PomodoroSettings, TimerState } from '../types';
 import { playStartSound, playCompleteSound } from '../utils/sounds';
+import { announceWorkComplete, announceBreakComplete, loadVoiceSettings } from '../utils/voice';
 
 const DEFAULT_SETTINGS: PomodoroSettings = {
   workMinutes: 25,
@@ -49,6 +50,16 @@ export const useTimer = (callbacks?: UseTimerCallbacks) => {
   const handleTimerComplete = () => {
     // Play completion sound
     playCompleteSound();
+
+    // Voice announcement
+    const voiceSettings = loadVoiceSettings();
+    if (voiceSettings?.name) {
+      if (mode === 'work') {
+        announceWorkComplete(voiceSettings.name, voiceSettings.voiceURI);
+      } else {
+        announceBreakComplete(voiceSettings.name, voiceSettings.voiceURI);
+      }
+    }
 
     if (mode === 'work') {
       callbacks?.onWorkComplete?.(settings.workMinutes);
