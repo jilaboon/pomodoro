@@ -12,13 +12,16 @@ import { useEffect, useState } from 'react';
 import './App.css';
 
 // Deployment timestamp
-const DEPLOYMENT_TIME = new Date('2026-01-14T09:55:00').toLocaleString('en-US', {
-  month: 'short',
-  day: 'numeric',
-  year: 'numeric',
-  hour: '2-digit',
-  minute: '2-digit'
-});
+const buildTime = import.meta.env.VITE_BUILD_TIME;
+const DEPLOYMENT_TIME = buildTime
+  ? new Date(buildTime).toLocaleString('en-US', {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+    })
+  : 'unknown';
 
 function App() {
   const [showNamePrompt, setShowNamePrompt] = useState(false);
