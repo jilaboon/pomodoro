@@ -784,6 +784,12 @@
   touch-action: none;
 }
 
+.game-playfield {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
 .game-ui {
   position: absolute;
   top: 1.25rem;
@@ -828,24 +834,11 @@
     0 0 20px rgba(0, 255, 255, 0.35),
     inset 0 0 12px rgba(255, 255, 255, 0.5);
   cursor: pointer;
-  animation-name: bubble-float;
-  animation-duration: var(--duration, 10s);
-  animation-timing-function: ease-in-out;
-  animation-iteration-count: infinite;
-  animation-direction: alternate;
+  z-index: 1;
 }
 
 .game-bubble:active {
   transform: scale(0.9);
-}
-
-@keyframes bubble-float {
-  0% {
-    transform: translate(0, 0);
-  }
-  100% {
-    transform: translate(calc(var(--dx, 20) * 1vw), calc(var(--dy, 20) * 1vh));
-  }
 }
 
 /* Responsive */
