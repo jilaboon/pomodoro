@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import type { TimerMode, TimerStatus, PomodoroSettings, TimerState } from '../types';
+import { playStartSound, playCompleteSound } from '../utils/sounds';
 
 const DEFAULT_SETTINGS: PomodoroSettings = {
   workMinutes: 25,
@@ -46,6 +47,9 @@ export const useTimer = (callbacks?: UseTimerCallbacks) => {
   }, [status, timeLeft]);
 
   const handleTimerComplete = () => {
+    // Play completion sound
+    playCompleteSound();
+
     if (mode === 'work') {
       callbacks?.onWorkComplete?.(settings.workMinutes);
       if (currentCycle < settings.cycles) {
@@ -66,6 +70,7 @@ export const useTimer = (callbacks?: UseTimerCallbacks) => {
   };
 
   const start = () => {
+    playStartSound();
     setStatus('running');
   };
 
