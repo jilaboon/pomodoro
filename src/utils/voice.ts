@@ -17,7 +17,7 @@ export const speak = (text: string, voiceURI?: string) => {
     return;
   }
 
-  // Cancel any ongoing speech
+  // Cancel any ongoing speech sdfdf
   window.speechSynthesis.cancel();
 
   const utterance = new SpeechSynthesisUtterance(text);
